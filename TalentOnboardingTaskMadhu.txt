@@ -1,0 +1,38 @@
+Install-Package Microsoft.EntityFrameworkCore.SqlServer
+Install-Package Microsoft.EntityFrameworkCore.Tools
+Scaffold-DbContext "Server=MADHU_1\SQLEXPRESS;Database=TalentOnboarding_Db;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Models -Tables Customers, Products, Sales, Stores
+....................................................................................
+....................................................................................
+optionsBuilder.UseSqlServer("Data Source=SIYARAM_PC\\SQLEXPRESS; Initial Catalog=TalentOnboarding_Db; Integrated Security=True");
+....................................................................................
+....................................................................................
+
+...................Sementic-ui-react Tutorial for begineers.........................
+https://www.robinwieruch.de/react-semantic-ui-tutorial/
+
+
+....................................................................................
+npm i semantic-ui-react
+Now, on your package.json file there is a semantic-ui dependency. However, it does not provide CSS-style. Install Semantic UI CSS via:
+    adding the Semantic UI CDN link in your index.html file
+
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/semantic.min.css"></link>
+OR
+npm i semantic-ui 
+if ask automatic .... node_modules..
+After install, you’ll still need to include the minified CSS file in your index.js file. This file is inside your node-modules.
+
+And import import 'semantic-ui/dist/semantic.min.css'; in index.js
+....................................................................................
+Now you are ready to use code from 
+https://react.semantic-ui.com/
+Try it 
+You Meet your target 
+Congratulation
+---------------------------------------------------------------------------------------
+To Enable Cors
+----------------------------------------------------------------------------------
+https://code-maze.com/enabling-cors-in-asp-net-core/
+OR
+https://docs.microsoft.com/en-us/aspnet/core/security/cors?view=aspnetcore-2.2
+
