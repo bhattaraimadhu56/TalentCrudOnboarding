@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Button } from "semantic-ui-react";
-import MenuTop from "../MenuTop";
 import { Table, Segment, Message } from "semantic-ui-react";
 import { AddCustomerModal } from "./AddCustomerModal";
 import { EditCustomerModal } from "./EditCustomerModal";
@@ -13,7 +12,7 @@ export default class Customer extends Component {
       cus: [],
       addModalShow: false,
       editModalShow: false,
-      itemPerPage: 3,
+      itemPerPage: 5,
       pageNumbers: [],
       currentPage: 1
     };
@@ -46,7 +45,7 @@ export default class Customer extends Component {
 
   onClickSelect = e => {
     let i = e.target.value;
-    alert(i);
+    // alert(i);
     this.setState({ itemPerPage: i });
   };
   render() {
@@ -67,9 +66,9 @@ export default class Customer extends Component {
     return (
       <div>
         <Segment.Group>
-          <Segment>
+          {/* <Segment>
             <MenuTop />
-          </Segment>
+          </Segment> */}
           <Segment>
             <AddCustomerModal
               show={this.state.addModalShow}
@@ -81,7 +80,7 @@ export default class Customer extends Component {
                 <option value="3" onClick={this.onClickSelect}>
                   3
                 </option>
-                <option value="5" onClick={this.onClickSelect}>
+                <option value="5" onClick={this.onClickSelect} selected>
                   5
                 </option>
                 <option value="10" onClick={this.onClickSelect}>

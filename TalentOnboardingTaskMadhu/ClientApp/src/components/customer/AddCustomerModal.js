@@ -46,22 +46,13 @@ export class AddCustomerModal extends Component {
       .then(res => res.json())
       .then(
         result => {
-          alert("Data Added Successfully");
+          // alert("Data Added Successfully");
           // <Message positive>
           //   <Message.Header>{result}</Message.Header>
           // </Message>;
         },
         error => {
-          alert("Sorry unsuccessful ");
-          // <Message negative>
-          //   <Message.Header>Sorry unable to add</Message.Header>
-          // </Message>;
-          <Message positive>
-            <Message.Header>You are eligible for a reward</Message.Header>
-            <p>Sorry unsuccessful You are eligible for a reward</p>
-          </Message>;
-          <p>Sorry unsuccessful You are eligible for a reward</p>;
-          alert("Sorry unsuccessful A");
+          // alert("Sorry unsuccessful ");
         }
       );
   };

@@ -91,7 +91,7 @@ export class AddProductModal extends Component {
                 <Form.Field>
                   <label>Price:</label>
                   <Input
-                    type="text"
+                    type="number"
                     name="prodPrice"
                     placeholder="Price"
                     required

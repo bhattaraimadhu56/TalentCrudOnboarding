@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Button } from "semantic-ui-react";
-import MenuTop from "../MenuTop";
 import { Table, Segment } from "semantic-ui-react";
 import { AddProductModal } from "./AddProductModal";
 import { EditProductModal } from "./EditProductModal";
@@ -13,7 +12,7 @@ export default class Product extends Component {
       prod: [],
       addModalShow: false,
       editModalShow: false,
-      itemPerPage: 3,
+      itemPerPage: 5,
       pageNumbers: [],
       currentPage: 1
     };
@@ -77,9 +76,9 @@ export default class Product extends Component {
     return (
       <div>
         <Segment.Group>
-          <Segment>
+          {/* <Segment>
             <MenuTop />
-          </Segment>
+          </Segment> */}
           {/* <Button
           primary
           icon="add"
@@ -105,7 +104,7 @@ export default class Product extends Component {
                 <option value="3" onClick={this.onClickSelect}>
                   3
                 </option>
-                <option value="5" onClick={this.onClickSelect}>
+                <option value="5" onClick={this.onClickSelect} selected>
                   5
                 </option>
                 <option value="10" onClick={this.onClickSelect}>

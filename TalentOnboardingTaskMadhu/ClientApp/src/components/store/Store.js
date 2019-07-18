@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Button } from "semantic-ui-react";
-import MenuTop from "../MenuTop";
 import { Table, Segment } from "semantic-ui-react";
 import { AddStoreModal } from "./AddStoreModal";
 import { EditStoreModal } from "./EditStoreModal";
@@ -13,7 +12,7 @@ export default class Store extends Component {
       store: [],
       addModalShow: false,
       editModalShow: false,
-      itemPerPage: 3,
+      itemPerPage: 5,
       pageNumbers: [],
       currentPage: 1
     };
@@ -77,9 +76,9 @@ export default class Store extends Component {
     return (
       <div>
         <Segment.Group>
-          <Segment>
+          {/* <Segment>
             <MenuTop />
-          </Segment>
+          </Segment> */}
           {/* <Button
           primary
           icon="add"
@@ -105,7 +104,7 @@ export default class Store extends Component {
                 <option value="3" onClick={this.onClickSelect}>
                   3
                 </option>
-                <option value="5" onClick={this.onClickSelect}>
+                <option value="5" onClick={this.onClickSelect} selected>
                   5
                 </option>
                 <option value="10" onClick={this.onClickSelect}>

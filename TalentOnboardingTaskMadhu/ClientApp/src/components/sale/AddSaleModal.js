@@ -69,17 +69,17 @@ export class AddSaleModal extends Component {
       .then(res => res.json())
       .then(
         result => {
-          // alert("result");
+          alert("result");
           <Message positive>
             <Message.Header>{result}</Message.Header>
           </Message>;
-        },
-        error => {
-          //alert("Failed");
-          <Message negative>
-            <Message.Header>Sorry unable to add</Message.Header>
-          </Message>;
         }
+        // ,error => {
+        //   alert("error");
+        //   <Message negative>
+        //     <Message.Header>Sorry unable to add</Message.Header>
+        //   </Message>;
+        // }
       );
   };
 

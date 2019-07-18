@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace TalentOnboardingTaskMadhu.Models
 {
@@ -11,8 +12,14 @@ namespace TalentOnboardingTaskMadhu.Models
         }
 
         public int Id { get; set; }
+        [Display(Name = "Product Name")]
+        [Required]
         public string ProductName { get; set; }
-        public decimal? Price { get; set; }
+
+
+        [Display(Name = "Product Price")]
+        [Required]
+        public decimal Price { get; set; }
 
         public virtual ICollection<Sales> Sales { get; set; }
     }

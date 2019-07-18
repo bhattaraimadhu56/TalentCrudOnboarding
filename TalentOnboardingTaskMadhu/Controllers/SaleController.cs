@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using TalentOnboardingTaskMadhu.Models;
-using TalentOnboardingTaskMadhu.ViewModal;
+
 
 namespace TalentOnboardingTaskMadhu.Controllers
 {
@@ -19,7 +19,7 @@ namespace TalentOnboardingTaskMadhu.Controllers
             using (TalentOnboarding_DbContext db = new TalentOnboarding_DbContext())
             {
 
-                // List<MyViewModel> mvm = new List<MyViewModel>();
+                
                 //query getting data from database from joining  tables and storing data in mvmlist
                 var mvmlist = (from c in db.Customers
                                join sal in db.Sales on c.Id equals sal.CustomerId
