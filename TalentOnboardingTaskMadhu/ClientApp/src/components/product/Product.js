@@ -28,6 +28,8 @@ export default class Product extends Component {
     fetch("https://localhost:5001/product/getallproducts")
       .then(response => response.json())
       .then(data => {
+        // Sorting Showing Latest id to First ....5,4,3,2,1
+        data.sort((a, b) => b.id - a.id);
         this.setState({ prod: data, addModalShow: false });
       });
   };

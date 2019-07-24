@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Button } from "semantic-ui-react";
-import { Table, Segment, Message } from "semantic-ui-react";
+import { Table, Segment, Button, Confirm } from "semantic-ui-react";
 import { AddCustomerModal } from "./AddCustomerModal";
 import { EditCustomerModal } from "./EditCustomerModal";
 import { Paginate } from "../utilities/Paginate";
@@ -15,24 +14,49 @@ export default class Customer extends Component {
       itemPerPage: 5,
       pageNumbers: [],
       currentPage: 1
+      // open: false
     };
-  }
+  } // end of constructor
+  // show = () => this.setState({ open: true });
+  // handleConfirm = cusId => {
+  //   fetch("https://localhost:5001/customer/DeleteCustomers/" + cusId, {
+  //     method: "DELETE",
+  //     header: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json"
+  //     }
+  //   })
+  //     .then(result => result.json())
+  //     .then(data => {
+  //       this.setState({ cus: data, open: false });
+  //     });
+  // };
+  // handleCancel = () => this.setState({ open: false });
   componentDidMount() {
     this.CustomerList();
   }
   componentDidUpdate() {
     this.CustomerList();
   }
+  // show = () => this.setState({ open: true });
   CustomerList = () => {
     fetch("https://localhost:5001/customer/getallcustomers")
       .then(response => response.json())
       .then(data => {
+        //way1 Sorting data by customerName as come in "https://localhost:5001/customer/getallcustomers"
+        //data.sort((a, b) => a.customerName.localeCompare(b.customerName));
+
+        //way 2 Sorting
+        //sorting by 1,2,3,4,5,
+        //data.sort((a, b) => a.id - b.id);
+        // Sorting Showing Latest id to First ....5,4,3,2,1
+        data.sort((a, b) => b.id - a.id);
         this.setState({ cus: data, addModalShow: false });
       });
   };
 
   deleteCustomer = cusId => {
-    if (window.confirm("Are you sure you want to delete")) {
+    if (window.confirm("Are you sure you want to delete?")) {
       fetch("https://localhost:5001/customer/DeleteCustomers/" + cusId, {
         method: "DELETE",
         header: {
@@ -66,9 +90,6 @@ export default class Customer extends Component {
     return (
       <div>
         <Segment.Group>
-          {/* <Segment>
-            <MenuTop />
-          </Segment> */}
           <Segment>
             <AddCustomerModal
               show={this.state.addModalShow}
@@ -125,6 +146,23 @@ export default class Customer extends Component {
                         content="Delete"
                         onClick={() => this.deleteCustomer(c.id)}
                       />
+                      {/* <Confirm
+                        open={this.state.open}
+                        onCancel={this.handleCancel}
+                        //onConfirm={this.handleConfirm}
+                        onConfirm={() => this.deleteCustomerk(c.id)}
+                      >
+                        kkk
+                      </Confirm> */}
+                      {/* <div>
+                        <Button onClick={this.show}>{c.id}</Button>
+                        <Confirm
+                          open={this.state.open}
+                          header="You are going to Delete this Customer"
+                          onCancel={this.handleCancel}
+                          onConfirm={() => this.handleConfirm(c.id)}
+                        />
+                      </div> */}
                     </Table.Cell>
                   </Table.Row>
 

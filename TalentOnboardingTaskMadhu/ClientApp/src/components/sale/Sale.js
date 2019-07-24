@@ -28,6 +28,8 @@ export default class Sale extends Component {
     fetch("https://localhost:5001/sale/getallsales")
       .then(response => response.json())
       .then(data => {
+        // Sorting Showing Latest id to First ....5,4,3,2,1
+        data.sort((a, b) => b.id - a.id);
         this.setState({ sal: data, addModalShow: false });
       });
   };
