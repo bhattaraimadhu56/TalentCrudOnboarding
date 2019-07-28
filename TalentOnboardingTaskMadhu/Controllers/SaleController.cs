@@ -19,7 +19,7 @@ namespace TalentOnboardingTaskMadhu.Controllers
             using (TalentOnboarding_DbContext db = new TalentOnboarding_DbContext())
             {
 
-                
+
                 //query getting data from database from joining  tables and storing data in mvmlist
                 var mvmlist = (from c in db.Customers
                                join sal in db.Sales on c.Id equals sal.CustomerId
@@ -61,35 +61,33 @@ namespace TalentOnboardingTaskMadhu.Controllers
         [HttpPut]
         public string EditSales(Sales salId)
         {
-
-            if (ModelState.IsValid)
-            {
-                using (var db = new TalentOnboarding_DbContext())
+           
+                if (ModelState.IsValid)
                 {
-                     var checkSales = db.Sales.Where(x => x.Id == salId.Id).FirstOrDefault();
-                    //checkSales.Id = salId.Id;
-                    checkSales.CustomerId = salId.CustomerId;
-                    checkSales.ProductId = salId.ProductId;
-                    checkSales.StoreId = salId.StoreId;
-                    checkSales.DateSold = salId.DateSold;
+                    using (var db = new TalentOnboarding_DbContext())
+                    {
+                        var checkSales = db.Sales.Where(x => x.Id == salId.Id).FirstOrDefault();
+                        //checkSales.Id = salId.Id;
+                        checkSales.CustomerId = salId.CustomerId;
+                        checkSales.ProductId = salId.ProductId;
+                        checkSales.StoreId = salId.StoreId;
+                        checkSales.DateSold = salId.DateSold;
 
 
-                    // db.Entry(salId).State = EntityState.Modified;
+                        // db.Entry(salId).State = EntityState.Modified;
 
 
 
-                    db.SaveChanges();
-                    return "Data edited successfully";
-                }
+                        db.SaveChanges();
+                    }
+                return "Data edited successfully";
             }
-
-
             else
             {
-                return "Sorry! Data edition Failure";
+                return "Failure to edit";
             }
+            
         }
-
 
 
 

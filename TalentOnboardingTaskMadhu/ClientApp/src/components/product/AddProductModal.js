@@ -5,8 +5,61 @@ import Snackbar from "@material-ui/core/Snackbar";
 export class AddProductModal extends Component {
   constructor(props) {
     super(props);
-    this.state = { open: false };
-  }
+    this.state = {
+      fields: {},
+      errors: {},
+      open: false
+    };
+  } // end of constructor
+  //for validation part 1
+  handleChange = e => {
+    let fields = this.state.fields;
+    fields[e.target.name] = e.target.value;
+    this.setState({
+      fields
+    });
+    this.validateForm();
+  };
+  // for validation part 2
+  validateForm = () => {
+    let fields = this.state.fields;
+    let errors = {};
+    let formIsValid = true;
+    // for cusName
+    if (!fields["prodName"]) {
+      formIsValid = false;
+      errors["prodName"] = "*Please enter Product name.";
+    }
+
+    if (typeof fields["prodName"] !== "undefined") {
+      if (!fields["prodName"].match(/^[a-zA-Z ]*$/)) {
+        formIsValid = false;
+        errors["prodName"] = "*Please enter alphabet characters only.";
+      }
+    }
+
+    // Product Price
+
+    if (!fields["prodPrice"]) {
+      formIsValid = false;
+      errors["prodPrice"] = "*Please enter product price.";
+    }
+
+    if (typeof fields["prodPrice"] !== "undefined") {
+      if (!fields["prodPrice"].match(/^[0-9]*$/)) {
+        formIsValid = false;
+        errors["prodPrice"] = "*Please Price positive number only.";
+      }
+    }
+
+    this.setState({
+      errors: errors
+    });
+    return formIsValid;
+  };
+
+  // end validation part 2
+
   open = () => this.setState({ open: true });
   close = () => this.setState({ open: false });
   snackbarClose = () => {
@@ -16,43 +69,50 @@ export class AddProductModal extends Component {
   handleSubmit = event => {
     event.preventDefault();
     //alert(event.target.prodName.value);
-    axios({
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      params: {
-        id: null,
-        productName: event.target.prodName.value,
-        price: event.target.prodPrice.value
-      },
-      url: "https://localhost:5001/product/CreateProducts"
-    })
-      // axios({
-      //   method: "post",
-      //   params: {
-      //     id: null,
-      //     productName: event.target.prodName.value,
-      //     price: event.target.prodPrice.value
-      //   },
-      //   url: "https://localhost:5001/product/CreateProducts"
-      // })
-      .then(res => res.json)
-      .then(result =>
-        // console.log("Customer Created"),
-        this.setState({
-          open: false,
-          snackbarOpen: true,
-          snackbarMsg: "Product Added Successfully"
-          //snackbarMsg: { result }
-        })
-      )
-      .catch(err => {
-        console.error("Fail to Add Product");
-      });
+    // form validation part 3
+    if (this.validateForm()) {
+      let fields = {};
+      fields["prodName"] = "";
+      fields["prodPrice"] = "";
+      this.setState({ fields: fields });
+      // alert("Form submitted");
+      axios({
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        params: {
+          id: null,
+          productName: event.target.prodName.value,
+          price: event.target.prodPrice.value
+        },
+        url: "https://localhost:5001/product/CreateProducts"
+      })
+        // axios({
+        //   method: "post",
+        //   params: {
+        //     id: null,
+        //     productName: event.target.prodName.value,
+        //     price: event.target.prodPrice.value
+        //   },
+        //   url: "https://localhost:5001/product/CreateProducts"
+        // })
+        .then(res => res.json)
+        .then(result =>
+          // console.log("Customer Created"),
+          this.setState({
+            open: false,
+            snackbarOpen: true,
+            snackbarMsg: "Product Added Successfully"
+            //snackbarMsg: { result }
+          })
+        )
+        .catch(err => {
+          console.error("Fail to Add Product");
+        });
+    }
   };
-
   render() {
     const { open } = this.state;
     return (
@@ -83,18 +143,25 @@ export class AddProductModal extends Component {
                     <Input
                       type="text"
                       name="prodName"
-                      required
-                      placeholder="Name"
+                      value={this.state.fields.prodName}
+                      onChange={this.handleChange}
+                      //required
                     />
+                    <div style={{ color: "red" }}>
+                      {this.state.errors.prodName}
+                    </div>
                   </Form.Field>
                   <Form.Field>
                     <label>Price:</label>
                     <Input
                       type="number"
                       name="prodPrice"
-                      placeholder="Price"
-                      required
+                      value={this.state.fields.prodPrice}
+                      onChange={this.handleChange}
                     />
+                    <div style={{ color: "red" }}>
+                      {this.state.errors.prodPrice}
+                    </div>
                   </Form.Field>
                 </Form.Group>
                 <Form.Field>

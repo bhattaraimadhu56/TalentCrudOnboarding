@@ -16,11 +16,18 @@ export default class Sale extends Component {
       pageNumbers: [],
       currentPage: 1
     };
-  }
+  } // end of constructor
   componentDidMount() {
     this.SaleList();
   }
   componentDidUpdate() {
+    this.SaleList();
+    // window.location.reload();
+  }
+  // componentWillMount() {
+  //   this.SaleList();
+  // }
+  componentWillUpdate() {
     this.SaleList();
   }
 
@@ -43,17 +50,6 @@ export default class Sale extends Component {
           "Content-Type": "application/json"
         }
       });
-      // axios({
-      //   method: "DELETE",
-      //   headers: {
-      //     Accept: "application/json",
-      //     "Content-Type": "application/json"
-      //   },
-      //   // params: {
-      //   //   id: salId,
-      //   // },
-      //   url: "https://localhost:5001/sale/DeleteSales/" + salId
-      // });
     }
   };
 
@@ -79,9 +75,6 @@ export default class Sale extends Component {
     return (
       <div>
         <Segment.Group>
-          {/* <Segment>
-            <MenuTop />
-          </Segment> */}
           <Segment>
             <AddSaleModal show={this.state.addModalShow} hide={addModalClose} />
             <div align="left">
@@ -124,23 +117,28 @@ export default class Sale extends Component {
                     <Table.Cell>{c.storeName}</Table.Cell>
                     <Table.Cell>{c.price}</Table.Cell>
                     <Table.Cell>
-                      {new Date(c.dateSold).toDateString()}
+                      {/* {new Date(c.dateSold).toDateString()} */}
+                      {new Date(c.dateSold).toLocaleDateString("en-GB")}
+                      {/* .split("/")
+                        .reverse()
+                        .join("-")} */}
+
                       {/* //others
                       {new Date(c.dateSold).toISOString().slice(0, 10)}
                       {new Date(c.dateSold).toLocaleDateString()}
-                      {new Date(c.dateSold).toDateString()} */}
+                    */}
                     </Table.Cell>
 
                     <Table.Cell>
                       <EditSaleModal
                         show={this.state.editModalShow}
                         hide={editModalClose}
-                        salId={c.id} //salId: c.id
-                        customerName={c.customerName}
-                        productName={c.address}
-                        storeName={c.storeName}
-                        price={c.price}
-                        dateSold={c.dateSold}
+                        salId={c.id} //{salId} //{c.id}
+                        customerName={c.customerName} //{customerName} //{c.customerName}
+                        productName={c.productName} //{customerAddress} //{c.address}
+                        storeName={c.storeName} //{storeName} //{c.storeName}
+                        price={c.price} //{price} //{c.price}
+                        dateSold={c.dateSold} //{dateSold} //{c.dateSold}
                       />
                     </Table.Cell>
                     <Table.Cell>

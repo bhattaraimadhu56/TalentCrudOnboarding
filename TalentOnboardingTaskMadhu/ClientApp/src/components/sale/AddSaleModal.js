@@ -6,6 +6,8 @@ export class AddSaleModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      fields: {},
+      errors: {},
       cus: [],
       prod: [],
       stor: [],
@@ -13,9 +15,41 @@ export class AddSaleModal extends Component {
       snackbarOpen: false,
       snackbarMsg: ""
     };
+  } // end of constructor
 
-    // this.handleSubmit = this.handleSubmit.bind(this);
-  }
+  //for validation part 1
+  handleChange = e => {
+    let fields = this.state.fields;
+    fields[e.target.name] = e.target.value;
+    this.setState({
+      fields
+    });
+  };
+  // for validation part 2
+  validateForm = () => {
+    let fields = this.state.fields;
+    let errors = {};
+    let formIsValid = true;
+    // for cusName
+    if (!fields["selectDate"]) {
+      formIsValid = false;
+      errors["selectDate"] = "*Please enter date of sale.";
+    }
+
+    // if (typeof fields["selectDate"] !== "undefined") {
+    //   if (!fields["selectDate"].match(/^[a-zA-Z ]*$/)) {
+    //     formIsValid = false;
+    //     errors["selectDate"] = "*Please enter alphabet characters only.";
+    //   }
+    // }
+
+    this.setState({
+      errors: errors
+    });
+    return formIsValid;
+  };
+
+  // end validation part 2
   componentDidMount() {
     fetch("https://localhost:5001/customer/getallcustomers")
       .then(response => response.json())
@@ -40,47 +74,44 @@ export class AddSaleModal extends Component {
   };
   handleSubmit = event => {
     event.preventDefault();
-    //alert(event.target.salName.value);
-    axios({
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      params: {
-        id: null,
-        productId: event.target.selectProduct.value,
-        customerId: event.target.selectCustomer.value,
-        storeId: event.target.selectStore.value,
-        dateSold: event.target.selectDate.value
-      },
-      url: "https://localhost:5001/sale/CreateSales"
-      // url: "https://localhost:5001/sale/EditSales"
-    })
-      // axios({
-      //   method: "post",
-      //   params: {
-      //     id: null,
-      //     name: event.target.salName.value,
-      //     address: event.target.salAddress.value
-      //   },
-      //   url: "https://localhost:5001/sale/CreateSales"
-      // })
-      .then(res => res.json)
-      .then(result =>
-        // console.log("Customer Created"),
-        this.setState({
-          open: false,
-          snackbarOpen: true,
-          snackbarMsg: "Sale Added Successfully"
-          //snackbarMsg: { result }
-        })
-      )
-      .catch(err => {
-        console.error("Fail to Add Sale");
-      });
+    if (this.validateForm()) {
+      let fields = {};
+      fields["selectDate"] = "";
+      this.setState({ fields: fields });
+      // alert("Form submitted");
+      axios({
+        url: "https://localhost:5001/sale/CreateSales",
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        params: {
+          id: null,
+          productId: event.target.selectProduct.value,
+          customerId: event.target.selectCustomer.value,
+          storeId: event.target.selectStore.value,
+          dateSold: event.target.selectDate.value
+            .split("/")
+            .reverse()
+            .join("-")
+        }
+      })
+        .then(res => res.json)
+        .then(result =>
+          // console.log("Customer Created"),
+          this.setState({
+            open: false,
+            snackbarOpen: true,
+            snackbarMsg: "Sale Added Successfully"
+            //snackbarMsg: { result }
+          })
+        )
+        .catch(err => {
+          console.error("Fail to Add Sale");
+        });
+    }
   };
-
   render() {
     const { open } = this.state;
     return (
@@ -141,10 +172,13 @@ export class AddSaleModal extends Component {
                   <Input
                     type="date"
                     name="selectDate"
-                    required
-                    placeholder="date"
-                    required
+                    value={this.state.fields.selectDate}
+                    onChange={this.handleChange}
+                    // required
                   />
+                  <div style={{ color: "red" }}>
+                    {this.state.errors.selectDate}
+                  </div>
                 </Form.Field>
 
                 <Form.Field>

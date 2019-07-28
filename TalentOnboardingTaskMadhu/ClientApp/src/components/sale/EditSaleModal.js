@@ -6,15 +6,67 @@ export class EditSaleModal extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      fields: {},
+      errors: {},
       cus: [],
       prod: [],
       stor: [],
+      sal: [],
       open: false,
       snackbarOpen: false,
-      snackbarMsg: ""
+      snackbarMsg: "",
+      customerId: 1,
+      productId: 1,
+      storeId: 1
     };
-  }
+  } // end of constructor
+
+  //for validation part 1
+  handleChange = e => {
+    let fields = this.state.fields;
+    fields[e.target.name] = e.target.value;
+    this.setState({
+      fields
+    });
+    this.validateForm();
+  };
+  // for validation part 2
+  validateForm = () => {
+    let fields = this.state.fields;
+    let errors = {};
+    let formIsValid = true;
+    // for cusName
+    if (fields["selectDate"] === "") {
+      formIsValid = false;
+      errors["selectDate"] = "*Please edit date of sale.";
+    }
+
+    // if (typeof fields["selectDate"] !== "undefined") {
+    //   if (
+    //     !fields["selectDate"].match(
+    //       // /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/
+    //       /^ (0 ? [1 - 9] | [12][0 - 9] | 3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
+    //     )
+    //   ) {
+    //     formIsValid = false;
+    //     errors["selectDate"] = "*Please date in dd-mm-yyyy format";
+    //   }
+    // }
+
+    this.setState({
+      errors: errors
+    });
+    return formIsValid;
+  };
+
+  // end validation part 2
   componentDidMount() {
+    this.refreshList();
+  }
+  componentDidUpdate() {
+    this.refreshList();
+  }
+  refreshList = () => {
     fetch("https://localhost:5001/customer/getallcustomers")
       .then(response => response.json())
       .then(data => {
@@ -30,48 +82,113 @@ export class EditSaleModal extends Component {
       .then(data => {
         this.setState({ stor: data });
       });
-  }
+    fetch("https://localhost:5001/sale/getallsales")
+      .then(response => response.json())
+      .then(data => {
+        this.setState({ sal: data });
+      });
+  };
   open = () => this.setState({ open: true });
   close = () => this.setState({ open: false });
   snackbarClose = () => {
     this.setState({ snackbarOpen: false });
   };
+
+  //   /////////////////////////////111111111111111111111111111111111111
+  // handleSubmit = event => {
+  //   event.preventDefault();
+  //   //alert(event.target.salName.value);
+  //   axios({
+  //     method: "PUT",
+  //     headers: {
+  //       Accept: "application/json",
+  //       "Content-Type": "application/json"
+  //     },
+  //     params: {
+  //       id: event.target.salId.value,
+  //       productId: event.target.selectProduct.value,
+  //       customerId: event.target.selectCustomer.value,
+  //       storeId: event.target.selectStore.value,
+  //       dateSold: event.target.selectDate.value
+  //     },
+  //     url: "https://localhost:5001/sale/EditSales"
+  //     // url: "https://localhost:5001/store/EditStores"
+  //   })
+  //     .then(res => res.json())
+  //     .then(
+  //       result => {
+  //         // alert("result");
+  //       },
+  //       error => {
+  //         //alert("Failed");
+  //       }
+  //     );
+  // };
+  //   /////////////////////////////00000000000000000000000000000000000
+
   handleSubmit = event => {
     event.preventDefault();
     //alert(event.target.salName.value);
-    axios({
-      method: "PUT",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json"
-      },
-      params: {
-        id: event.target.salId.value,
-        productId: event.target.selectProduct.value,
-        customerId: event.target.selectCustomer.value,
-        storeId: event.target.selectStore.value,
-        dateSold: event.target.selectDate.value
-      },
-      url: "https://localhost:5001/sale/EditSales"
-    })
-      .then(res => res.json)
-      .then(result =>
-        // console.log("Sale Updated"),
-        this.setState({
-          open: false,
-          snackbarOpen: true,
-          snackbarMsg: "Sale Updated Successfully"
-          //snackbarMsg: { result }
-        })
-      )
-      .catch(err => {
-        console.error("Fail to Update Sale");
-      });
-    this.setState({ open: false });
+    // alert(event.target.selectDate.value);
+
+    if (this.validateForm()) {
+      let fields = {};
+      fields["selectDate"] = "";
+      this.setState({ fields: fields });
+      // alert("Form submitted");
+      axios({
+        url: "https://localhost:5001/sale/EditSales",
+        // url: "https://localhost:5001/store/EditStores",
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json"
+        },
+        params: {
+          id: event.target.salId.value,
+          // productId: event.target.selectProduct.key,
+          //productId: event.target.selectProduct.value,
+          productId: this.state.productId,
+          // customerId: event.target.selectCustomer.value,
+          customerId: this.state.customerId,
+          // storeId: event.target.selectStore.key,
+          storeId: this.state.storeId,
+          dateSold: event.target.selectDate.value
+        }
+      })
+        .then(res => res.json)
+        .then(result =>
+          // console.log("Sale Updated"),
+          this.setState({
+            open: false,
+            snackbarOpen: true,
+            snackbarMsg: "Sale Updated Successfully"
+            //snackbarMsg: { result }
+          })
+        )
+        .catch(err => {
+          // console.error("Fail to Update Sale");
+          alert("Fail to update Sale Madhu");
+        });
+      this.setState({ open: false });
+    }
   };
 
+  CaptureCustomerId = cId => {
+    this.setState({ customerId: cId });
+    alert(cId);
+  };
+  CaptureProductId = cId => {
+    this.setState({ productId: cId });
+    alert(cId);
+  };
+  CaptureStoreId = cId => {
+    this.setState({ storeId: cId });
+    alert(cId);
+  };
+  // /////////////////////////////111111111111111111111111111111111111
   render() {
-    const { open } = this.state;
+    const { open, customerId } = this.state;
     return (
       <div>
         <Snackbar
@@ -100,9 +217,8 @@ export class EditSaleModal extends Component {
                     name="salId"
                     required
                     disabled
-                    hidden
                     defaultValue={this.props.salId}
-                    placeholder="Id"
+                    // placeholder="Id"
                   />
                 </Form.Field>
 
@@ -111,14 +227,15 @@ export class EditSaleModal extends Component {
 
                   <select
                     name="selectCustomer"
-                    defaultvalue={this.props.customerName}
+                    defaultValue={this.props.customerName}
                   >
                     {this.state.cus.map(c => (
-                      <option value={c.id} required key={c.id}>
+                      <option
+                        key={c.id}
+                        value={c.customerName}
+                        onClick={() => this.CaptureCustomerId(c.id)}
+                      >
                         {c.customerName}
-                        {/* {c.customerName === this.props.customerName
-                        ? c.customerName
-                        : this.props.customerName} */}
                       </option>
                     ))}
                   </select>
@@ -126,12 +243,15 @@ export class EditSaleModal extends Component {
                 <Form.Field>
                   <label>Product:</label>
                   <select
-                    selected
                     name="selectProduct"
-                    defaultvalue={this.props.productName}
+                    defaultValue={this.props.productName}
                   >
                     {this.state.prod.map(p => (
-                      <option value={p.id} key={p.id}>
+                      <option
+                        key={p.id}
+                        value={p.productName}
+                        onClick={() => this.CaptureProductId(p.id)}
+                      >
                         {p.productName}
                       </option>
                     ))}
@@ -139,9 +259,16 @@ export class EditSaleModal extends Component {
                 </Form.Field>
                 <Form.Field>
                   <label>Store:</label>
-                  <select name="selectStore">
+                  <select
+                    name="selectStore"
+                    defaultValue={this.props.storeName}
+                  >
                     {this.state.stor.map(s => (
-                      <option value={s.id} key={s.id}>
+                      <option
+                        value={s.storeName}
+                        key={s.id}
+                        onClick={() => this.CaptureStoreId(s.id)}
+                      >
                         {s.storeName}
                       </option>
                     ))}
@@ -152,10 +279,18 @@ export class EditSaleModal extends Component {
                   <Input
                     type="date"
                     name="selectDate"
-                    required
-                    placeholder="date"
-                    defaultValue={this.props.dateSold}
+                    defaultValue={new Date(this.props.dateSold)
+                      .toLocaleDateString("en-GB")
+                      .split("/")
+                      .reverse()
+                      .join("-")}
+                    onChange={this.handleChange}
+                    // required
                   />
+
+                  <div style={{ color: "red" }}>
+                    {this.state.errors.selectDate}
+                  </div>
                 </Form.Field>
 
                 <Form.Field>
