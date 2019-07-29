@@ -16,17 +16,16 @@ export default class Sale extends Component {
       pageNumbers: [],
       currentPage: 1
     };
-  } // end of constructor
+  }
   componentDidMount() {
     this.SaleList();
   }
   componentDidUpdate() {
     this.SaleList();
-    // window.location.reload();
   }
-  // componentWillMount() {
-  //   this.SaleList();
-  // }
+  componentWillMount() {
+    this.SaleList();
+  }
   componentWillUpdate() {
     this.SaleList();
   }

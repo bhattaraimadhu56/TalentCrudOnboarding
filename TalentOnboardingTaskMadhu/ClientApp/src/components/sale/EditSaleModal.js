@@ -11,13 +11,15 @@ export class EditSaleModal extends Component {
       cus: [],
       prod: [],
       stor: [],
-      sal: [],
       open: false,
       snackbarOpen: false,
       snackbarMsg: "",
       customerId: 1,
       productId: 1,
-      storeId: 1
+      storeId: 1,
+      customerSelectClick: false,
+      productSelectClick: false,
+      storeSelectClick: false
     };
   } // end of constructor
 
@@ -35,24 +37,29 @@ export class EditSaleModal extends Component {
     let fields = this.state.fields;
     let errors = {};
     let formIsValid = true;
-    // for cusName
-    if (fields["selectDate"] === "") {
+    // for Date
+    if (fields["selectDate" === ""]) {
       formIsValid = false;
       errors["selectDate"] = "*Please edit date of sale.";
     }
-
-    // if (typeof fields["selectDate"] !== "undefined") {
-    //   if (
-    //     !fields["selectDate"].match(
-    //       // /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/
-    //       /^ (0 ? [1 - 9] | [12][0 - 9] | 3[01])[\/\-](0?[1-9]|1[012])[\/\-]\d{4}$/
-    //     )
-    //   ) {
-    //     formIsValid = false;
-    //     errors["selectDate"] = "*Please date in dd-mm-yyyy format";
-    //   }
-    // }
-
+    // for Customer
+    if (this.state.customerSelectClick === false) {
+      formIsValid = false;
+      errors["selectCustomer"] =
+        " Please either select same customer or choose different ";
+    }
+    // for Product
+    if (this.state.productSelectClick === false) {
+      formIsValid = false;
+      errors["selectProduct"] =
+        "Please either select same product or choose different ";
+    }
+    //for Store
+    if (this.state.storeSelectClick === false) {
+      formIsValid = false;
+      errors["selectStore"] =
+        "Please either select same store or choose different ";
+    }
     this.setState({
       errors: errors
     });
@@ -82,49 +89,12 @@ export class EditSaleModal extends Component {
       .then(data => {
         this.setState({ stor: data });
       });
-    fetch("https://localhost:5001/sale/getallsales")
-      .then(response => response.json())
-      .then(data => {
-        this.setState({ sal: data });
-      });
   };
   open = () => this.setState({ open: true });
   close = () => this.setState({ open: false });
   snackbarClose = () => {
     this.setState({ snackbarOpen: false });
   };
-
-  //   /////////////////////////////111111111111111111111111111111111111
-  // handleSubmit = event => {
-  //   event.preventDefault();
-  //   //alert(event.target.salName.value);
-  //   axios({
-  //     method: "PUT",
-  //     headers: {
-  //       Accept: "application/json",
-  //       "Content-Type": "application/json"
-  //     },
-  //     params: {
-  //       id: event.target.salId.value,
-  //       productId: event.target.selectProduct.value,
-  //       customerId: event.target.selectCustomer.value,
-  //       storeId: event.target.selectStore.value,
-  //       dateSold: event.target.selectDate.value
-  //     },
-  //     url: "https://localhost:5001/sale/EditSales"
-  //     // url: "https://localhost:5001/store/EditStores"
-  //   })
-  //     .then(res => res.json())
-  //     .then(
-  //       result => {
-  //         // alert("result");
-  //       },
-  //       error => {
-  //         //alert("Failed");
-  //       }
-  //     );
-  // };
-  //   /////////////////////////////00000000000000000000000000000000000
 
   handleSubmit = event => {
     event.preventDefault();
@@ -146,12 +116,10 @@ export class EditSaleModal extends Component {
         },
         params: {
           id: event.target.salId.value,
-          // productId: event.target.selectProduct.key,
           //productId: event.target.selectProduct.value,
           productId: this.state.productId,
           // customerId: event.target.selectCustomer.value,
           customerId: this.state.customerId,
-          // storeId: event.target.selectStore.key,
           storeId: this.state.storeId,
           dateSold: event.target.selectDate.value
         }
@@ -168,23 +136,25 @@ export class EditSaleModal extends Component {
         )
         .catch(err => {
           // console.error("Fail to Update Sale");
-          alert("Fail to update Sale Madhu");
+          alert("Fail to update Sale ");
         });
       this.setState({ open: false });
     }
   };
 
   CaptureCustomerId = cId => {
-    this.setState({ customerId: cId });
-    alert(cId);
+    // to make sure customerSelectClick is clicked  we have pass it here
+    // after validation only data will send to backend
+    this.setState({ customerId: cId, customerSelectClick: true });
+    // alert(cId);
   };
   CaptureProductId = cId => {
-    this.setState({ productId: cId });
-    alert(cId);
+    this.setState({ productId: cId, productSelectClick: true });
+    //alert(cId);
   };
   CaptureStoreId = cId => {
-    this.setState({ storeId: cId });
-    alert(cId);
+    this.setState({ storeId: cId, storeSelectClick: true });
+    //alert(cId);
   };
   // /////////////////////////////111111111111111111111111111111111111
   render() {
@@ -218,13 +188,11 @@ export class EditSaleModal extends Component {
                     required
                     disabled
                     defaultValue={this.props.salId}
-                    // placeholder="Id"
                   />
                 </Form.Field>
 
                 <Form.Field>
                   <label>Customer:</label>
-
                   <select
                     name="selectCustomer"
                     defaultValue={this.props.customerName}
@@ -238,7 +206,10 @@ export class EditSaleModal extends Component {
                         {c.customerName}
                       </option>
                     ))}
-                  </select>
+                  </select>{" "}
+                  <div style={{ color: "red" }}>
+                    {this.state.errors.selectCustomer}
+                  </div>
                 </Form.Field>
                 <Form.Field>
                   <label>Product:</label>
@@ -255,7 +226,10 @@ export class EditSaleModal extends Component {
                         {p.productName}
                       </option>
                     ))}
-                  </select>
+                  </select>{" "}
+                  <div style={{ color: "red" }}>
+                    {this.state.errors.selectProduct}
+                  </div>
                 </Form.Field>
                 <Form.Field>
                   <label>Store:</label>
@@ -272,7 +246,10 @@ export class EditSaleModal extends Component {
                         {s.storeName}
                       </option>
                     ))}
-                  </select>
+                  </select>{" "}
+                  <div style={{ color: "red" }}>
+                    {this.state.errors.selectStore}
+                  </div>
                 </Form.Field>
                 <Form.Field>
                   <label>Sold Date:</label>
@@ -299,6 +276,7 @@ export class EditSaleModal extends Component {
                     color="primary"
                     icon="upload"
                     content="Update"
+                    //  disabled={!this.state.formIsValid}
                   />
                   <Button
                     type="cancel"

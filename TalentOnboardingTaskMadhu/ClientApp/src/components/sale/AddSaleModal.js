@@ -35,14 +35,6 @@ export class AddSaleModal extends Component {
       formIsValid = false;
       errors["selectDate"] = "*Please enter date of sale.";
     }
-
-    // if (typeof fields["selectDate"] !== "undefined") {
-    //   if (!fields["selectDate"].match(/^[a-zA-Z ]*$/)) {
-    //     formIsValid = false;
-    //     errors["selectDate"] = "*Please enter alphabet characters only.";
-    //   }
-    // }
-
     this.setState({
       errors: errors
     });
@@ -187,6 +179,7 @@ export class AddSaleModal extends Component {
                     color="green"
                     icon="add"
                     content="Add"
+                    // disabled={!this.state.formIsValid}
                   />
                   <Button
                     type="cancel"
