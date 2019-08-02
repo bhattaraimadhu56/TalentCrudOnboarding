@@ -74,17 +74,17 @@ export class EditSaleModal extends Component {
     this.refreshList();
   }
   refreshList = () => {
-    fetch("https://localhost:5001/customer/getallcustomers")
+    fetch("https://madhutalent.azurewebsites.net/customer/getallcustomers")
       .then(response => response.json())
       .then(data => {
         this.setState({ cus: data });
       });
-    fetch("https://localhost:5001/product/getallproducts")
+    fetch("https://madhutalent.azurewebsites.net/product/getallproducts")
       .then(response => response.json())
       .then(data => {
         this.setState({ prod: data });
       });
-    fetch("https://localhost:5001/store/getallstores")
+    fetch("https://madhutalent.azurewebsites.net/store/getallstores")
       .then(response => response.json())
       .then(data => {
         this.setState({ stor: data });
@@ -107,8 +107,8 @@ export class EditSaleModal extends Component {
       this.setState({ fields: fields });
       // alert("Form submitted");
       axios({
-        url: "https://localhost:5001/sale/EditSales",
-        // url: "https://localhost:5001/store/EditStores",
+        url: "https://madhutalent.azurewebsites.net/sale/EditSales",
+        // url: "https://madhutalent.azurewebsites.net/store/EditStores",
         method: "PUT",
         headers: {
           Accept: "application/json",

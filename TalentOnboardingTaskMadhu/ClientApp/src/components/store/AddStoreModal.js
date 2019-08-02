@@ -82,7 +82,9 @@ export class AddStoreModal extends Component {
           storeName: event.target.storeName.value,
           storeAddress: event.target.storeAddress.value
         },
-        url: "https://localhost:5001/store/CreateStores"
+       
+        //url: "https://localhost:5001/store/CreateStores"
+        url: "https://madhutalent.azurewebsites.net/store/CreateStores"
       })
         // axios({
         //   method: "post",

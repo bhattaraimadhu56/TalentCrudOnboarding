@@ -25,7 +25,9 @@ export default class Store extends Component {
   }
 
   StoreList = () => {
-    fetch("https://localhost:5001/store/GetAllStores")
+    
+   // fetch("https://localhost:5001/store/GetAllStores")
+    fetch("https://madhutalent.azurewebsites.net/store/GetAllStores")
       .then(response => response.json())
       .then(data => {
         // Sorting Showing Latest id to First ....5,4,3,2,1
@@ -36,7 +38,8 @@ export default class Store extends Component {
 
   deleteStore = storeId => {
     if (window.confirm("Are you sure you want to delete")) {
-      fetch("https://localhost:5001/store/DeleteStores/" + storeId, {
+      // fetch("https://localhost:5001/store/DeleteStores/" + storeId, {
+        fetch("https://madhutalent.azurewebsites.net/store/DeleteStores/" + storeId, {
         method: "DELETE",
         header: {
           Accept: "application/json",

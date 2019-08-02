@@ -92,7 +92,11 @@ export class AddCustomerModal extends Component {
       this.setState({ fields: fields });
       // alert("Form submitted");
       axios({
-        url: "https://localhost:5001/customer/CreateCustomers",
+       
+        // url: "https://talenton.azurewebsites.net/customer/CreateCustomers",
+        // madhutalent.azurewebsites.net
+        url: "https://madhutalent.azurewebsites.net/customer/CreateCustomers",
+        // url: "https://localhost:5001/customer/CreateCustomers",
         method: "POST",
         headers: {
           Accept: "application/json",

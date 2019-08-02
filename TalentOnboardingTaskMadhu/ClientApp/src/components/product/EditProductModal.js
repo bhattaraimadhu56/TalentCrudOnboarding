@@ -89,7 +89,9 @@ export class EditProductModal extends Component {
           productName: event.target.prodName.value,
           price: event.target.prodPrice.value
         },
-        url: "https://localhost:5001/product/EditProducts"
+        
+        // url: "https://localhost:5001/product/EditProducts"
+        url: "https://madhutalent.azurewebsites.net/product/EditProducts"
       })
         .then(res => res.json)
         .then(result =>

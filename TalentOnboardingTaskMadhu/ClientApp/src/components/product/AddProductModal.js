@@ -87,7 +87,9 @@ export class AddProductModal extends Component {
           productName: event.target.prodName.value,
           price: event.target.prodPrice.value
         },
-        url: "https://localhost:5001/product/CreateProducts"
+        
+       // url: "https://localhost:5001/product/CreateProducts"
+        url: "https://madhutalent.azurewebsites.net/product/CreateProducts"
       })
         // axios({
         //   method: "post",

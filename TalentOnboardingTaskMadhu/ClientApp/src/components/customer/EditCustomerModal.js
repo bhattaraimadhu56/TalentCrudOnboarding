@@ -70,7 +70,11 @@ export class EditCustomerModal extends Component {
       fields["cusAddress"] = "";
       this.setState({ fields: fields });
       axios({
-        url: "https://localhost:5001/customer/EditCustomers",
+       
+        // url: " https://talenton.azurewebsites.net/customer/EditCustomers",\
+        //
+        // url: "https://localhost:5001/customer/EditCustomers",
+        url: "https://madhutalent.azurewebsites.net/customer/EditCustomers",
         method: "PUT",
         headers: {
           Accept: "application/json",

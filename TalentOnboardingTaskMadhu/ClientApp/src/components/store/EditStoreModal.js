@@ -80,7 +80,9 @@ export class EditStoreModal extends Component {
           storeName: event.target.storeName.value,
           storeAddress: event.target.storeAddress.value
         },
-        url: "https://localhost:5001/store/EditStores"
+        
+        // url: "https://localhost:5001/store/EditStores"
+        url: "https://madhutalent.azurewebsites.net/store/EditStores"
       })
         .then(res => res.json)
         .then(result =>

@@ -31,7 +31,7 @@ export default class Sale extends Component {
   }
 
   SaleList = () => {
-    fetch("https://localhost:5001/sale/getallsales")
+    fetch("https://madhutalent.azurewebsites.net/sale/getallsales")
       .then(response => response.json())
       .then(data => {
         // Sorting Showing Latest id to First ....5,4,3,2,1
@@ -42,7 +42,7 @@ export default class Sale extends Component {
 
   deleteSale = salId => {
     if (window.confirm("Are you sure you want to delete")) {
-      fetch("https://localhost:5001/sale/DeleteSales/" + salId, {
+      fetch("https://madhutalent.azurewebsites.net/sale/DeleteSales/" + salId, {
         method: "DELETE",
         header: {
           Accept: "application/json",

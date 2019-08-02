@@ -3,6 +3,7 @@ import { Table, Segment, Button, Confirm } from "semantic-ui-react";
 import { AddCustomerModal } from "./AddCustomerModal";
 import { EditCustomerModal } from "./EditCustomerModal";
 import { Paginate } from "../utilities/Paginate";
+// import {API} from "../config";
 
 export default class Customer extends Component {
   constructor(props) {
@@ -40,7 +41,10 @@ export default class Customer extends Component {
   }
   // show = () => this.setState({ open: true });
   CustomerList = () => {
-    fetch("https://localhost:5001/customer/getallcustomers")
+   // fetch(`${API}/customer/getallcustomers`)
+   fetch(" https://madhutalent.azurewebsites.net/customer/getallcustomers")
+   // fetch("https://localhost:5001/customer/getallcustomers")
+    // fetch("https://talenton.azurewebsites.net/customer/getallcustomers")
       .then(response => response.json())
       .then(data => {
         //way1 Sorting data by customerName as come in "https://localhost:5001/customer/getallcustomers"
@@ -57,9 +61,12 @@ export default class Customer extends Component {
 
   deleteCustomer = cusId => {
     if (window.confirm("Are you sure you want to delete?")) {
-      fetch("https://localhost:5001/customer/DeleteCustomers/" + cusId, {
+      // fetch(`${API}/customer/DeleteCustomers/` + cusId, {
+        // fetch("https://madhutalent.azurewebsites.net/customer/DeleteCustomers/" + cusId, {
+     // fetch("https://localhost:5001/customer/DeleteCustomers/" + cusId, {
+      fetch("https://madhutalent.azurewebsites.net/customer/DeleteCustomers/"+cusId,{
         method: "DELETE",
-        header: {
+               header: {
           Accept: "application/json",
           "Content-Type": "application/json"
         }
@@ -97,6 +104,7 @@ export default class Customer extends Component {
             />
             <div align="left">
               <label>Select number of row to display</label>
+          
               <select nam="selectRowPerPage">
                 <option value="3" onClick={this.onClickSelect}>
                   3

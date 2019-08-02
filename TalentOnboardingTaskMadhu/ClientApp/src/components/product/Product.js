@@ -23,9 +23,10 @@ export default class Product extends Component {
   componentDidUpdate() {
     this.ProductList();
   }
-
+  
   ProductList = () => {
-    fetch("https://localhost:5001/product/getallproducts")
+    // fetch("https://localhost:5001/product/getallproducts")
+    fetch("https://madhutalent.azurewebsites.net/product/getallproducts")
       .then(response => response.json())
       .then(data => {
         // Sorting Showing Latest id to First ....5,4,3,2,1
@@ -36,7 +37,8 @@ export default class Product extends Component {
 
   deleteProduct = prodId => {
     if (window.confirm("Are you sure you want to delete")) {
-      fetch("https://localhost:5001/product/DeleteProducts/" + prodId, {
+      // fetch("https://localhost:5001/product/DeleteProducts/" + prodId, {
+        fetch("https://madhutalent.azurewebsites.net/product/DeleteProducts/" + prodId, {
         method: "DELETE",
         header: {
           Accept: "application/json",
